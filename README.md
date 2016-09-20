@@ -1,2 +1,2 @@
 # RaceCar
-A Simple game in Python to learn Pygame
+A simple "game" in Python to learn Pygame and Python.
