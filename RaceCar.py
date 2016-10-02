@@ -1,5 +1,6 @@
 import pygame
 import time
+import random
 
 pygame.init()
 
@@ -21,6 +22,10 @@ pygame.display.set_caption('car test')
 reloj = pygame.time.Clock()
 
 CarImg = pygame.image.load('Assets/CarT.png')
+
+def things(tx, ty, tw, th, tc):
+  pygame.draw.rect(gameDisplay, tc, [tx, ty, tw, th])
+
 def car(x,y):
 	gameDisplay.blit(CarImg,(x,y))
 
@@ -47,6 +52,13 @@ def game_loop():
   Y = (display_height * 0.8)
 
   x_change = 0
+
+  t_startx = random.randrange(0,display_width)
+  t_starty = -600
+  t_speed = 7
+  t_width = 100
+  t_height = 100
+
   gameexit = False
 
   while not gameexit: 
@@ -70,10 +82,25 @@ def game_loop():
 		  
 	  gameDisplay.fill(white)
 	  #screen.fill(white)
+	  
+	  #def things(tx, ty, tw, th, tc):
+	  things(t_startx, t_starty, t_width, t_height, black)
+	  t_starty += t_speed
 	  car(X,Y)
+	  
+	  #LOGIC
 	  
 	  if (X > (display_width - car_width)) or (X < 0):
 	    crash()
+	  if (t_starty > display_height):
+	    t_starty = 0 - t_height
+	    t_startx = random.randrange(0,display_width)
+	    
+	  if (Y < (t_starty + t_height)):
+	    print('Y cross')
+	    if (X > t_startx) and (X < (t_startx + t_width)) or ((X + car_width) > t_startx) and ((X + car_width) < (t_startx + t_width)):
+	      print('x cross')
+	      crash()
 	    #gameexit = True
 	  
 	  pygame.display.update()
