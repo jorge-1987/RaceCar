@@ -9,8 +9,11 @@ display_height = 600
 
 black = (0,0,0)
 white = (255,255,255)
-red = (255,0,0)
-green = (0,255,0)
+red = (200,0,0)
+green = (0,200,0)
+
+bred = (255,0,0)
+bgreen = (0,255,0)
 
 car_width = 82
 
@@ -22,6 +25,25 @@ pygame.display.set_caption('car test')
 reloj = pygame.time.Clock()
 
 CarImg = pygame.image.load('Assets/CarT.png')
+
+def quitgame():
+  pygame.quit()
+
+def button(msg,x,y,w,h,ic,ac,action=None):
+  mouse = pygame.mouse.get_pos()
+  click = pygame.mouse.get_pressed()
+    
+  if (x + w) > mouse[0] > x and (y+h) > mouse[1] > y:
+    pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
+    if click[0] == 1 and action != None:
+      action()
+  else:
+    pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
+      
+  smalltext = pygame.font.Font('freesansbold.ttf',20)
+  TextSurf, TextRect = text_objects(msg, smalltext)
+  TextRect.center = ((x+(w/2)),(y+(h/2)))
+  gameDisplay.blit(TextSurf, TextRect)
 
 def things_dodged(count):
   font = pygame.font.SysFont(None, 25)
@@ -45,14 +67,57 @@ def message_display(text):
   gameDisplay.blit(TextSurf, TextRect)
   
   pygame.display.update()
-  
+  pygame.quit()
   time.sleep(2)
   game_loop()
 
 def crash():
   message_display("Chocaste")
 
+def game_intro():
+  intro = True
+  while intro:
+    for event in pygame.event.get():
+      if event.type == pygame.QUIT:
+	pygame.quit()
+
+    gameDisplay.fill(white)
+    largetext = pygame.font.Font('freesansbold.ttf',115)
+    TextSurf, TextRect = text_objects("Race Car", largetext)
+    TextRect.center = ((display_width/2),(display_height/2))
+    gameDisplay.blit(TextSurf, TextRect)
+    
+#    mouse = pygame.mouse.get_pos()
+#    
+#    if (150 + 100) > mouse[0] > 150 and (450+50) > mouse[1] > 450:
+#      pygame.draw.rect(gameDisplay, bgreen, (150,450,100,50))
+#    else:
+#      pygame.draw.rect(gameDisplay, green, (150,450,100,50))
+#      
+#    smalltext = pygame.font.Font('freesansbold.ttf',20)
+#    TextSurf, TextRect = text_objects("Start!", smalltext)
+#    TextRect.center = ((150+(100/2)),(450+(50/2)))
+#    gameDisplay.blit(TextSurf, TextRect)
+#    
+#    if (550 + 100) > mouse[0] > 550 and (450+50) > mouse[1] > 450:
+#      pygame.draw.rect(gameDisplay, bred, (550,450,100,50))
+#    else:
+#      pygame.draw.rect(gameDisplay, red, (550,450,100,50))
+#      
+#    TextSurf, TextRect = text_objects("Exit", smalltext)
+#    TextRect.center = ((550+(100/2)),(450+(50/2)))
+#    gameDisplay.blit(TextSurf, TextRect)
+#
+
+    button("Start!",150,450,100,50,green,bgreen,game_loop)
+    button("Exit",550,450,100,50,red,bred,quitgame)
+    
+    pygame.display.update()
+    reloj.tick(15)
+  
+
 def game_loop():
+#  game_intro()
   X = (display_width * 0.45)
   Y = (display_height * 0.8)
 
@@ -106,15 +171,16 @@ def game_loop():
 	    dodged += 1
 	    
 	  if (Y < (t_starty + t_height)):
-	    print('Y cross')
+#	    print('Y cross')
 	    if (X > t_startx) and (X < (t_startx + t_width)) or ((X + car_width) > t_startx) and ((X + car_width) < (t_startx + t_width)):
-	      print('x cross')
+#	      print('x cross')
 	      crash()
 	    #gameexit = True
 	  
 	  pygame.display.update()
 	  reloj.tick(60)
-	
+
+game_intro()
 game_loop()
 pygame.quit()
 quit()
