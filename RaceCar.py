@@ -23,6 +23,11 @@ reloj = pygame.time.Clock()
 
 CarImg = pygame.image.load('Assets/CarT.png')
 
+def things_dodged(count):
+  font = pygame.font.SysFont(None, 25)
+  text = font.render("Dodged: "+str(count), True, black)
+  gameDisplay.blit(text, (0, 0))
+
 def things(tx, ty, tw, th, tc):
   pygame.draw.rect(gameDisplay, tc, [tx, ty, tw, th])
 
@@ -58,6 +63,8 @@ def game_loop():
   t_speed = 7
   t_width = 100
   t_height = 100
+  
+  dodged = 0
 
   gameexit = False
 
@@ -87,6 +94,7 @@ def game_loop():
 	  things(t_startx, t_starty, t_width, t_height, black)
 	  t_starty += t_speed
 	  car(X,Y)
+	  things_dodged(dodged)
 	  
 	  #LOGIC
 	  
@@ -95,6 +103,7 @@ def game_loop():
 	  if (t_starty > display_height):
 	    t_starty = 0 - t_height
 	    t_startx = random.randrange(0,display_width)
+	    dodged += 1
 	    
 	  if (Y < (t_starty + t_height)):
 	    print('Y cross')
