@@ -20,7 +20,7 @@ car_width = 82
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 
 #gameDisplay = pygame.display.set_caption('car test')
-pygame.display.set_caption('car test')
+pygame.display.set_caption('Car Dodger')
 
 reloj = pygame.time.Clock()
 
@@ -28,6 +28,7 @@ CarImg = pygame.image.load('Assets/CarT.png')
 
 def quitgame():
   pygame.quit()
+  quit()
 
 def button(msg,x,y,w,h,ic,ac,action=None):
   mouse = pygame.mouse.get_pos()
@@ -86,28 +87,6 @@ def game_intro():
     TextSurf, TextRect = text_objects("Race Car", largetext)
     TextRect.center = ((display_width/2),(display_height/2))
     gameDisplay.blit(TextSurf, TextRect)
-    
-#    mouse = pygame.mouse.get_pos()
-#    
-#    if (150 + 100) > mouse[0] > 150 and (450+50) > mouse[1] > 450:
-#      pygame.draw.rect(gameDisplay, bgreen, (150,450,100,50))
-#    else:
-#      pygame.draw.rect(gameDisplay, green, (150,450,100,50))
-#      
-#    smalltext = pygame.font.Font('freesansbold.ttf',20)
-#    TextSurf, TextRect = text_objects("Start!", smalltext)
-#    TextRect.center = ((150+(100/2)),(450+(50/2)))
-#    gameDisplay.blit(TextSurf, TextRect)
-#    
-#    if (550 + 100) > mouse[0] > 550 and (450+50) > mouse[1] > 450:
-#      pygame.draw.rect(gameDisplay, bred, (550,450,100,50))
-#    else:
-#      pygame.draw.rect(gameDisplay, red, (550,450,100,50))
-#      
-#    TextSurf, TextRect = text_objects("Exit", smalltext)
-#    TextRect.center = ((550+(100/2)),(450+(50/2)))
-#    gameDisplay.blit(TextSurf, TextRect)
-#
 
     button("Start!",150,450,100,50,green,bgreen,game_loop)
     button("Exit",550,450,100,50,red,bred,quitgame)
@@ -153,9 +132,7 @@ def game_loop():
 		      
 		  
 	  gameDisplay.fill(white)
-	  #screen.fill(white)
-	  
-	  #def things(tx, ty, tw, th, tc):
+
 	  things(t_startx, t_starty, t_width, t_height, black)
 	  t_starty += t_speed
 	  car(X,Y)
@@ -165,15 +142,15 @@ def game_loop():
 	  
 	  if (X > (display_width - car_width)) or (X < 0):
 	    crash()
+	    time.sleep(2)
+	    gameexit = True
 	  if (t_starty > display_height):
 	    t_starty = 0 - t_height
 	    t_startx = random.randrange(0,display_width)
 	    dodged += 1
 	    
 	  if (Y < (t_starty + t_height)):
-#	    print('Y cross')
 	    if (X > t_startx) and (X < (t_startx + t_width)) or ((X + car_width) > t_startx) and ((X + car_width) < (t_startx + t_width)):
-#	      print('x cross')
 	      crash()
 	    #gameexit = True
 	  
