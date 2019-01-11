@@ -33,14 +33,14 @@ def quitgame():
 def button(msg,x,y,w,h,ic,ac,action=None):
   mouse = pygame.mouse.get_pos()
   click = pygame.mouse.get_pressed()
-    
+
   if (x + w) > mouse[0] > x and (y+h) > mouse[1] > y:
     pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
     if click[0] == 1 and action != None:
       action()
   else:
     pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
-      
+
   smalltext = pygame.font.Font('freesansbold.ttf',20)
   TextSurf, TextRect = text_objects(msg, smalltext)
   TextRect.center = ((x+(w/2)),(y+(h/2)))
@@ -55,7 +55,7 @@ def things(tx, ty, tw, th, tc):
   pygame.draw.rect(gameDisplay, tc, [tx, ty, tw, th])
 
 def car(x,y):
-	gameDisplay.blit(CarImg,(x,y))
+    gameDisplay.blit(CarImg,(x,y))
 
 def text_objects(text,font):
   textSurface = font.render(text, True, black)
@@ -66,7 +66,7 @@ def message_display(text):
   TextSurf, TextRect = text_objects(text, largetext)
   TextRect.center = ((display_width/2),(display_height/2))
   gameDisplay.blit(TextSurf, TextRect)
-  
+
   pygame.display.update()
   pygame.quit()
   time.sleep(2)
@@ -80,7 +80,7 @@ def game_intro():
   while intro:
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
-	pygame.quit()
+        pygame.quit()
 
     gameDisplay.fill(white)
     largetext = pygame.font.Font('freesansbold.ttf',115)
@@ -90,10 +90,10 @@ def game_intro():
 
     button("Start!",150,450,100,50,green,bgreen,game_loop)
     button("Exit",550,450,100,50,red,bred,quitgame)
-    
+
     pygame.display.update()
     reloj.tick(15)
-  
+
 
 def game_loop():
 #  game_intro()
@@ -107,55 +107,55 @@ def game_loop():
   t_speed = 7
   t_width = 100
   t_height = 100
-  
+
   dodged = 0
 
   gameexit = False
 
-  while not gameexit: 
-	  for event in pygame.event.get():
-		  if event.type == pygame.QUIT:
-			  pygame.quit()
-			  quit()
+  while not gameexit:
+    for event in pygame.event.get():
+      if event.type == pygame.QUIT:
+        pygame.quit()
+        quit()
 
-		  if event.type == pygame.KEYDOWN:
-		      if event.key == pygame.K_LEFT:
-			x_change = -5
-		      elif event.key == pygame.K_RIGHT:
-			x_change = 5
-			
-		  if event.type == pygame.KEYUP:
-		    if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-		      x_change = 0
-		    
-	  X += x_change
-		      
-		  
-	  gameDisplay.fill(white)
+      if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_LEFT:
+          x_change = -5
+        elif event.key == pygame.K_RIGHT:
+          x_change = 5
 
-	  things(t_startx, t_starty, t_width, t_height, black)
-	  t_starty += t_speed
-	  car(X,Y)
-	  things_dodged(dodged)
-	  
-	  #LOGIC
-	  
-	  if (X > (display_width - car_width)) or (X < 0):
-	    crash()
-	    time.sleep(2)
-	    gameexit = True
-	  if (t_starty > display_height):
-	    t_starty = 0 - t_height
-	    t_startx = random.randrange(0,display_width)
-	    dodged += 1
-	    
-	  if (Y < (t_starty + t_height)):
-	    if (X > t_startx) and (X < (t_startx + t_width)) or ((X + car_width) > t_startx) and ((X + car_width) < (t_startx + t_width)):
-	      crash()
-	    #gameexit = True
-	  
-	  pygame.display.update()
-	  reloj.tick(60)
+      if event.type == pygame.KEYUP:
+        if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+          x_change = 0
+
+    X += x_change
+
+
+    gameDisplay.fill(white)
+
+    things(t_startx, t_starty, t_width, t_height, black)
+    t_starty += t_spee
+    car(X,Y)
+    things_dodged(dodged)
+
+    #LOGIC
+
+    if (X > (display_width - car_width)) or (X < 0):
+      crash()
+      time.sleep(2)
+      gameexit = True
+    if (t_starty > display_height):
+      t_starty = 0 - t_height
+      t_startx = random.randrange(0,display_width)
+      dodged += 1
+
+    if (Y < (t_starty + t_height)):
+      if (X > t_startx) and (X < (t_startx + t_width)) or ((X + car_width) > t_startx) and ((X + car_width) < (t_startx + t_width)):
+        crash()
+      #gameexit = True
+
+    pygame.display.update()
+    reloj.tick(60)
 
 game_intro()
 game_loop()
