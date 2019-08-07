@@ -17,16 +17,17 @@ bgreen = (0,255,0)
 
 car_width = 82
 
+dodged = 0
+
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 
-#gameDisplay = pygame.display.set_caption('car test')
 pygame.display.set_caption('Car Dodger')
 
 reloj = pygame.time.Clock()
 
 CarImg = pygame.image.load('Assets/CarT.png')
 
-def quitgame():
+def quitgame(dodged):
   pygame.quit()
   quit()
 
@@ -37,7 +38,7 @@ def button(msg,x,y,w,h,ic,ac,action=None):
   if (x + w) > mouse[0] > x and (y+h) > mouse[1] > y:
     pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
     if click[0] == 1 and action != None:
-      action()
+      action(dodged)
   else:
     pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
 
@@ -70,12 +71,14 @@ def message_display(text):
   pygame.display.update()
 #  pygame.quit()
   time.sleep(2)
-  game_intro()
 
-def crash():
-  message_display("Oh no! Crash!")
 
-def game_intro():
+def crash(dodged):
+  message_display("You crashed!")
+  game_intro(dodged)
+
+
+def game_intro(dodged):
   intro = True
   while intro:
     for event in pygame.event.get():
@@ -91,11 +94,13 @@ def game_intro():
     button("Start!",150,450,100,50,green,bgreen,game_loop)
     button("Exit",550,450,100,50,red,bred,quitgame)
 
+    things_dodged(dodged)
+
     pygame.display.update()
     reloj.tick(15)
 
 
-def game_loop():
+def game_loop(dodged):
 #  game_intro()
   X = (display_width * 0.45)
   Y = (display_height * 0.8)
@@ -107,8 +112,6 @@ def game_loop():
   t_speed = 7
   t_width = 100
   t_height = 100
-
-  dodged = 0
 
   gameexit = False
 
@@ -141,7 +144,7 @@ def game_loop():
     #LOGIC
 
     if (X > (display_width - car_width)) or (X < 0):
-      crash()
+      crash(dodged)
       time.sleep(2)
       gameexit = True
     if (t_starty > display_height):
@@ -151,7 +154,7 @@ def game_loop():
 
     if (Y < (t_starty + t_height)):
       if (X > t_startx) and (X < (t_startx + t_width)) or ((X + car_width) > t_startx) and ((X + car_width) < (t_startx + t_width)):
-        crash()
+        crash(dodged)
         time.sleep(2)
         gameexit = True
         #gameexit = True
@@ -159,7 +162,7 @@ def game_loop():
     pygame.display.update()
     reloj.tick(60)
 
-game_intro()
-game_loop()
+game_intro(dodged)
+game_loop(dodged)
 pygame.quit()
 quit()
