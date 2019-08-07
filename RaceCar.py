@@ -68,12 +68,12 @@ def message_display(text):
   gameDisplay.blit(TextSurf, TextRect)
 
   pygame.display.update()
-  pygame.quit()
+#  pygame.quit()
   time.sleep(2)
-  game_loop()
+  game_intro()
 
 def crash():
-  message_display("Chocaste")
+  message_display("Oh no! Crash!")
 
 def game_intro():
   intro = True
@@ -134,7 +134,7 @@ def game_loop():
     gameDisplay.fill(white)
 
     things(t_startx, t_starty, t_width, t_height, black)
-    t_starty += t_spee
+    t_starty += t_speed
     car(X,Y)
     things_dodged(dodged)
 
@@ -152,7 +152,9 @@ def game_loop():
     if (Y < (t_starty + t_height)):
       if (X > t_startx) and (X < (t_startx + t_width)) or ((X + car_width) > t_startx) and ((X + car_width) < (t_startx + t_width)):
         crash()
-      #gameexit = True
+        time.sleep(2)
+        gameexit = True
+        #gameexit = True
 
     pygame.display.update()
     reloj.tick(60)
