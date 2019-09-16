@@ -26,6 +26,7 @@ pygame.display.set_caption('Car Dodger')
 reloj = pygame.time.Clock()
 
 CarImg = pygame.image.load('Assets/CarT.png')
+CarEBImg = pygame.image.load('Assets/CarEB.png')
 
 def quitgame(dodged):
   pygame.quit()
@@ -53,7 +54,8 @@ def things_dodged(count):
   gameDisplay.blit(text, (0, 0))
 
 def things(tx, ty, tw, th, tc):
-  pygame.draw.rect(gameDisplay, tc, [tx, ty, tw, th])
+#  pygame.draw.rect(gameDisplay, tc, [tx, ty, tw, th])
+  gameDisplay.blit(CarEBImg,(tx,ty))
 
 def car(x,y):
     gameDisplay.blit(CarImg,(x,y))
@@ -107,11 +109,11 @@ def game_loop(dodged):
 
   x_change = 0
 
-  t_startx = random.randrange(0,display_width)
+  t_startx = random.randrange(100,(display_width-200))
   t_starty = -600
   t_speed = 7
-  t_width = 100
-  t_height = 100
+  t_width = 82
+  t_height = 82
 
   gameexit = False
 
