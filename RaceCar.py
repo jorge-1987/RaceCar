@@ -9,6 +9,7 @@ display_height = 600
 
 black = (0,0,0)
 white = (255,255,255)
+grey = (160,160,160)
 red = (200,0,0)
 green = (0,200,0)
 
@@ -109,7 +110,7 @@ def game_loop(dodged):
 
   x_change = 0
 
-  t_startx = random.randrange(100,(display_width-200))
+  t_startx = random.randrange(150,(display_width-232))
   t_starty = -600
   t_speed = 7
   t_width = 82
@@ -135,20 +136,22 @@ def game_loop(dodged):
 
     X += x_change
 
+#PINTAR FONDO
+    gameDisplay.fill(grey)
 
-    gameDisplay.fill(white)
-
+#ENEMIGOS
     things(t_startx, t_starty, t_width, t_height, black)
     t_starty += t_speed
     car(X,Y)
     things_dodged(dodged)
 
-    #LOGIC
-
-    if (X > (display_width - car_width)) or (X < 0):
+#LOGIC
+#COLISIONES EN LOS BORDES DE LA PANTALLA
+    if (X > ((display_width - car_width)-150)) or (X < 150):
       crash(dodged)
       time.sleep(2)
       gameexit = True
+
     if (t_starty > display_height):
       t_starty = 0 - t_height
       t_startx = random.randrange(0,display_width)
@@ -159,7 +162,6 @@ def game_loop(dodged):
         crash(dodged)
         time.sleep(2)
         gameexit = True
-        #gameexit = True
 
     pygame.display.update()
     reloj.tick(60)
