@@ -10,6 +10,7 @@ display_height = 600
 black = (0,0,0)
 white = (255,255,255)
 grey = (160,160,160)
+darkgrey = (80,80,80)
 red = (200,0,0)
 green = (0,200,0)
 
@@ -54,7 +55,7 @@ def things_dodged(count):
   text = font.render("Dodged: "+str(count), True, black)
   gameDisplay.blit(text, (0, 0))
 
-def things(tx, ty, tw, th, tc):
+def thingsimg(tx, ty, tw, th, tc):
 #  pygame.draw.rect(gameDisplay, tc, [tx, ty, tw, th])
   gameDisplay.blit(CarEBImg,(tx,ty))
 
@@ -116,8 +117,25 @@ def game_loop(dodged):
   t_width = 82
   t_height = 82
 
+
+#PASTO DE LOS COSTADOS
+  lg_startx = 0
+  lg_starty = 0
+  lg_width = 130
+  lg_height = display_height
+  lc_startx = 130
+  lc_width = 20
+
+  rg_startx = (display_width-130)
+  rg_starty = 0
+  rg_width = 130
+  rg_height = display_height
+  rc_startx = (display_width-150)
+  rc_width = 20
+
   gameexit = False
 
+#LOOP PRINCIPAL DEL JUEGO
   while not gameexit:
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
@@ -138,9 +156,14 @@ def game_loop(dodged):
 
 #PINTAR FONDO
     gameDisplay.fill(grey)
-
+#PINTAR ESCENARIO
+    pygame.draw.rect(gameDisplay, green, [lg_startx, lg_starty, lg_width, lg_height])
+    pygame.draw.rect(gameDisplay, green, [rg_startx, rg_starty, rg_width, rg_height])
+    pygame.draw.rect(gameDisplay, darkgrey, [lc_startx, lg_starty, lc_width, lg_height])
+    pygame.draw.rect(gameDisplay, darkgrey, [rc_startx, rg_starty, rc_width, rg_height])
+    
 #ENEMIGOS
-    things(t_startx, t_starty, t_width, t_height, black)
+    thingsimg(t_startx, t_starty, t_width, t_height, black)
     t_starty += t_speed
     car(X,Y)
     things_dodged(dodged)
@@ -154,7 +177,7 @@ def game_loop(dodged):
 
     if (t_starty > display_height):
       t_starty = 0 - t_height
-      t_startx = random.randrange(0,display_width)
+      t_startx = random.randrange(150,(display_width-232))
       dodged += 1
 
     if (Y < (t_starty + t_height)):
